@@ -26,27 +26,32 @@
         </table>
         <button v-on:click="calcLagrange()">CalcLagrange</button>
         <button v-on:click="calcNewton()">CalcNewton</button>
+        <!--f(<input id="x" />)=<label id="f">{{calc()}}</label>-->
     </div>
 </template>
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator';
     import Point from './Point';
-    import {calcLagrange, calcNewton} from './Calcs'
+    import { calcLagrange, calcNewton } from './Calcs';
+    import runCalc from './RunMethod';
 
     @Component({
         components: {
         }
     })
     export default class App extends Vue {
-
+        
         calcLagrange() {
             alert(calcLagrange(this.getPoints()));
         }
 
         calcNewton() {            
             alert(calcNewton(this.getPoints()));
-        }
+        }/*
+        calcf() {
+
+        }*/
         data() {
             return {
                 points: [new Point(0, 3), new Point(1, 2)]

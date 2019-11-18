@@ -38,6 +38,7 @@
     <Content Include="src\components\Points.vue">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="src\RunMethod.ts" />
     <Content Include="tsconfig.json" />
     <Content Include="package.json" />
     <Content Include="README.md" />
@@ -48,6 +49,7 @@
     <Folder Include="src\" />
     <Folder Include="src\assets\" />
     <Folder Include="src\components\" />
+    <Folder Include="src\Model\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\main.ts" />
@@ -59,6 +61,15 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="src\Calcs.ts" />
+    <TypeScriptCompile Include="src\Model\Clouse.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="src\Model\IClouse.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="src\Model\Letter.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="src\Point.ts" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
