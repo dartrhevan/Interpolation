@@ -3,9 +3,10 @@ import Clouse from './Clouse'
 
 export default class Letter implements IClouse {
     add(clouse: IClouse): IClouse {
-        let cl = Object.assign(clouse) as IClouse;
+        let cl = clouse;// as IClouse;
         if (cl instanceof Clouse) {
-            let res = Object.assign(cl) as Clouse;
+            let res = new Clouse([]);
+            Object.assign(res, cl);
             let lets = res.letters;
             for (let l of lets) {
                 if (l[0] === this.power) {
@@ -18,7 +19,8 @@ export default class Letter implements IClouse {
             return res;
         }
         else {
-            let l = Object.assign(cl) as Letter;
+            let l = new Letter(0,0);
+            Object.assign(l, cl);
             if (this.power === l.power) {
                 l.coef += this.coef;
                 return l;
@@ -28,24 +30,27 @@ export default class Letter implements IClouse {
         }    
     }
     mul(clouse: IClouse): IClouse {
-        let cl = Object.assign(clouse) as IClouse;
-        if (cl instanceof Clouse) {
+        if (clouse instanceof Clouse) {
+            let cl = new Clouse([]);
+            Object.assign(cl, clouse);
             let lets = (cl as Clouse).letters;
             for (let l of lets) {
                 l[0] += this.power;
                 l[1].coef *= this.coef;
             }
+            return cl;
         }
         else {
-            let l = cl as Letter;
+            let l = new Letter(0, 0);//cl as Letter;
+            Object.assign(l, clouse);
             l.coef *= this.coef;
             l.power += this.power;
+            return l;
         }
-        return cl;
     }
     constructor(public power: number, public coef: number) { }
 
     public toString() {
-        return `${this.coef}*x^${this.power}`;
+        return `${this.coef}x^${this.power}`;
     }
 }

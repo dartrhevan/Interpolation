@@ -3,14 +3,20 @@ import Letter from './Letter'
 
 export default class Clouse implements IClouse {
     add(clouse: IClouse): IClouse {
-        let res = Object.assign(this) as Clouse;
-        let cl = Object.assign(clouse) as IClouse;
-        if (cl instanceof Clouse) {
+        let res = new Clouse([]);
+        Object.assign(res, this);
+        //let cl = Object.assign(clouse) as IClouse;
+        if (clouse instanceof Clouse) {
+            let cl = new Clouse([]);
+            Object.assign(cl, clouse);
             let lets = (cl as Clouse).letters;
             for (let l of lets)
                 Clouse.addLetterToClouse(res, l[1]);
+            //lets.forEach(l => Clouse.addLetterToClouse(res, l[1]));
         }
         else {
+            let cl = new Letter(0, 0);
+            Object.assign(cl, clouse);
             let l = cl as Letter;
             Clouse.addLetterToClouse(res, l);
         }
@@ -30,17 +36,18 @@ export default class Clouse implements IClouse {
     }
 
     mul(clouse: IClouse): IClouse {
-        let res: Clouse;
-        let cl = Object.assign(clouse) as IClouse;
-        if (cl instanceof Clouse) {
-            let lets: Letter[] = [];
-            res = new Clouse(lets);
-            for (let i of this._letters)
-                res.add(this.mul(i[1]));            
+        let res = new Clouse([]);
+        if (clouse instanceof Clouse) {
+            let cl = clouse as Clouse //new Clouse([]);
+            //Object.assign(cl, clouse);
+            for (let i of this._letters) 
+                res.add(cl.mul(i[1]));
         }
         else {
-            res = Object.assign(this) as Clouse;
-            Clouse.mullLetterToClouse(res, cl as Letter);
+            let cl = new Letter(0, 0);
+            Object.assign(cl, clouse);
+            Object.assign(res, this);
+            Clouse.mullLetterToClouse(res, cl);
         }
         return res;
     }
