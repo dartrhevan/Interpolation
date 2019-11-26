@@ -5,7 +5,7 @@ export default class Letter implements IClouse {
     add(clouse: IClouse): IClouse {
         let cl = clouse;// as IClouse;
         if (cl instanceof Clouse) {
-            let res = new Clouse([]);
+            let res = new Clouse();
             Object.assign(res, cl);
             let lets = res.letters;
             for (let l of lets) {
@@ -26,12 +26,12 @@ export default class Letter implements IClouse {
                 return l;
             }
             let c = Object.assign(this) as Letter;
-            return new Clouse([l, c])
+            return new Clouse(l, c)
         }    
     }
     mul(clouse: IClouse): IClouse {
         if (clouse instanceof Clouse) {
-            let cl = new Clouse([]);
+            let cl = new Clouse();
             Object.assign(cl, clouse);
             let lets = (cl as Clouse).letters;
             for (let l of lets) {

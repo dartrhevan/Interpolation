@@ -3,11 +3,11 @@ import Letter from './Letter'
 
 export default class Clouse implements IClouse {
     add(clouse: IClouse): IClouse {
-        let res = new Clouse([]);
+        let res = new Clouse();
         Object.assign(res, this);
         //let cl = Object.assign(clouse) as IClouse;
         if (clouse instanceof Clouse) {
-            let cl = new Clouse([]);
+            let cl = new Clouse();
             Object.assign(cl, clouse);
             let lets = (cl as Clouse).letters;
             for (let l of lets)
@@ -36,7 +36,7 @@ export default class Clouse implements IClouse {
     }
 
     mul(clouse: IClouse): IClouse {
-        let res = new Clouse([]);
+        let res = new Clouse();
         if (clouse instanceof Clouse) {
             let cl = clouse as Clouse //new Clouse([]);
             //Object.assign(cl, clouse);
@@ -52,7 +52,7 @@ export default class Clouse implements IClouse {
         return res;
     }
     private _letters = new Map<number, Letter>();
-    constructor(lets: Letter[]) {
+    constructor(...lets: Letter[]) {
         for (let l of lets)
             this._letters.set(l.power,l);
     }

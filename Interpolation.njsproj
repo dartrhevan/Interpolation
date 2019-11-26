@@ -70,7 +70,10 @@
     <TypeScriptCompile Include="src\Model\Letter.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="src\Point.ts" />
+    <TypeScriptCompile Include="src\Model\Point.ts" />
+    <TypeScriptCompile Include="src\Model\Splain.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
   <ProjectExtensions>

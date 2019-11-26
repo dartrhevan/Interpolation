@@ -1,47 +1,24 @@
 <template>
     <div id="app">
-        <table border="1">
-            <thead>
-                <tr>
-                    <td>X</td>
-                    <td>Y</td>
-                    <td></td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="p in points">
-                    <td>{{p.x}}</td>
-                    <td>{{p.y}}</td>
-                    <td><button v-on:click="del(p)">Delete</button></td>
-                </tr>
-                <tr>
-                    <td><input id="xf" /></td>
-                    <td><input id="yf" /></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <button ref="but" v-on:click="add()">Add</button>
-                </tr>
-            </tbody>
-        </table>
-        <button v-on:click="calcLagrange()">CalcLagrange</button>
-        <button v-on:click="calcNewton()">CalcNewton</button>
+        <Points />
         <!--f(<input id="x" />)=<label id="f">{{calc()}}</label>-->
     </div>
 </template>
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator';
-    import Point from './Point';
-    import { calcLagrange, calcNewton } from './Calcs';
-    import runCalc from './RunMethod';
+    //import Point from './Point';
+    import Points from './components/Points.vue';
+    //import { calcLagrange, calcNewton } from './Calcs';
+    //import runCalc from './RunMethod';
 
     @Component({
         components: {
+            Points
         }
     })
     export default class App extends Vue {
-        
+        /*
         calcLagrange() {
             alert(calcLagrange(this.getPoints()));
         }
@@ -51,7 +28,7 @@
         }/*
         calcf() {
 
-        }*/
+        }*
         data() {
             return {
                 points: [new Point(0, 3), new Point(1, 2)]
@@ -67,14 +44,16 @@
         add() {
             this.$data.points.push(new Point(Number.parseFloat((document.getElementById('xf') as HTMLInputElement).value),
                 Number.parseFloat((document.getElementById('yf') as HTMLInputElement).value)));
-        }
+        }*/
     }
 </script>
 
 <style>
     #app {
-        position: absolute;
-        left: 35vw;
-        top: 35vh;
+        display: flex;
+        width: 100%;
+        height: 90vh;
+        align-items: center;
+        justify-content: center;
     }
 </style>
