@@ -35,12 +35,38 @@ export function calcLagrange(points: Point[]): string {
     return res.toString();
 }
 
+function getA(i: number, cs: number[], points: Point[]): number {
+    //TODO
+    return 0;
+}
+function getB(i: number, cs: number[], points: Point[]): number {
+    //TODO
+    return 0;
+}
+function getCs(points: Point[]): number[] {
+    //TODO
+    return [];
+}
+function getD(i: number, cs: number[], points: Point[]): number {
+    //TODO
+    return 0;
+}
+function getH(i: number, points: Point[]): number {//вспомогательая функция
+    return points[i].x - points[i - 1].x;
+}
 export function calcSplains(points: Point[]): Splain[] {
+    points = points.sort((a: Point, b: Point) => a.x - b.x)
     return [
         new Splain(0, 1, 1, 2, 3, 4),
         new Splain(1, 3, 5, 6, 1, 0),
         new Splain(3, 3.2, 1, 0, 7, 4)
     ];//stub
+    const cs = getCs(points);
+    let ans: Splain[];
+    for (let i = 1; i < points.length; i++) {
+        ans.push(new Splain(points[i - 1].x, points[i].x, getA(i, cs, points), getB(i, cs, points), cs[i], getD(i, cs, points)));
+    }
+    return ans;
 }
 
 export function getFBySplain(x: number, splain: Splain): number {

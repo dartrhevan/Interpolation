@@ -27,6 +27,8 @@
         <button v-on:click="calcLagrange()">CalcLagrange</button>
         <button v-on:click="calcNewton()">CalcNewton</button>
         <button v-on:click="calcSplains()">calcSplains</button>
+        <br/>
+        Result:<label id="res"></label>
         <details v-if="splains!=null">
             Splains
             <br/>
@@ -43,7 +45,7 @@
     import Point from '../Model/Point';
     import { calcLagrange, calcNewton, calcSplains, getFBySplain } from '../Calcs';
     import runCalc from '../RunMethod';
-    import Splain from '../Model/Splain'
+    import Splain from '../Model/Splain';
 
     @Component({
         components: {
@@ -52,12 +54,13 @@
     export default class Points extends Vue {
         
         calcLagrange() {
-            alert(calcLagrange(this.getPoints()));
+            const res = document.getElementById('res') as HTMLElement;
+            res.innerHTML = calcLagrange(this.getPoints());
         }
 
         calcNewton() {
-            
-            alert(calcNewton(this.getPoints()));
+            const res = document.getElementById('res') as HTMLElement;
+            res.innerHTML =calcNewton(this.getPoints());
         }
         calcSplains() {            
             //alert("Splains");
