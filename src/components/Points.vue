@@ -33,7 +33,7 @@
             <div v-for="s in splains">
                 {{s.x1}} - {{s.x2}}: y = {{s.a}} + {{s.b}}(x - {{s.x1}}) + {{s.c}}(x - {{s.x1}})^2 + {{s.d}}(x - {{s.x1}})^3
             </div>
-            <input type="text" placeholder="x" value="0" id="x"/><button v-on:click="y.innerHTML=splainF()">Calc</button>f(x)=<label id="y"></label>
+            <input type="text" placeholder="x" value="0" id="x"/><button v-on:click="$refs.y.innerHTML=splainF()">Calc</button>f(x)=<label ref="y"></label>
         </details>
     </div>
 </template>
@@ -55,7 +55,8 @@
             alert(calcLagrange(this.getPoints()));
         }
 
-        calcNewton() {            
+        calcNewton() {
+            
             alert(calcNewton(this.getPoints()));
         }
         calcSplains() {            
@@ -78,7 +79,7 @@
             console.log(x);
             
             console.log(this.$data.splains);
-            const curSplain = (this.$data.splains as Splain[]).find(s => s.x1 >= x && s.x2 <= x);
+            const curSplain = (this.$data.splains as Splain[]).find(s => s.x2 >= x && s.x1 <= x);
             if (curSplain === null || curSplain === undefined) {
                 alert("Out of bound exception")
                 return null;
