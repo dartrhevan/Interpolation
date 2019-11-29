@@ -5,10 +5,10 @@ import Splain from './Model/Splain';
 
 
 function getFundPolL(i: number, points: Point[]): Clouse {
-    let res = i === 0 ? new Clouse(new Letter(1, 1), new Letter(0, -points[i].x)) : new Clouse(new Letter(0, 1));
-    if (i === 0)
-        console.log(res.toString());
-    for (let j = i === 0 ? 1 : 0; j < points.length; j++)
+    let res = /*i === 0 ? new Clouse(new Letter(1, 1), new Letter(0, -points[i].x)) :*/ new Clouse(new Letter(0, 1));
+    /*if (i === 0)
+        console.log(res.toString());*/
+    for (let j = 0; j < points.length; j++)
         if (j != i) {
             let a = new Clouse(new Letter(1, 1), new Letter(0, -points[j].x));
             console.log(a.toString());
@@ -28,14 +28,14 @@ function getDivider(i: number, points: Point[]): number {
 }
 
 export function calcLagrange(points: Point[]): string {
-    console.log(points);
+    //console.log(points);
     let res = new Clouse();
     for (let i = 0; i < points.length; i++) {
         let a = getFundPolL(i, points);
         console.log(a.toString());
         res = res.add(a.mul(new Letter(0, points[i].y))) as Clouse;
-        console.log('y' + points[i].y);
-        console.log('res:' + res.toString());
+        /*console.log('y' + points[i].y);
+        console.log('res:' + res.toString());*/
     }
     return res.toString();
 }
