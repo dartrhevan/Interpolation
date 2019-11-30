@@ -51,6 +51,9 @@ export default class Letter implements IClouse {
     constructor(public power: number, public coef: number) { }
 
     public toString() {
-        return `${this.coef}x^${this.power}`;
+        if (this.power > 1)
+            return `${this.coef}x^${this.power}`;
+        else if (this.power === 1) return `${this.coef}x`
+        else return `${this.coef}`;
     }
 }

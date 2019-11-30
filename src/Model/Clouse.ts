@@ -80,6 +80,15 @@ export default class Clouse implements IClouse {
     public shrinkToFit() {
         
     }
+
+    public reverse() {
+        for (let i = 0; i < this._letters.size / 2; i++) {
+            let t = this._letters.get(i) as Letter;
+            this._letters.set(i, this._letters.get(this._letters.size - i) as Letter);
+            this._letters.set((this._letters.size - i), t)
+        }
+    }
+
     public toString() {
         let res = '';
         for (let l of this._letters)

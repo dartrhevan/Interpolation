@@ -21,7 +21,7 @@ function getDivider(i: number, points: Point[]): number {
     const xi = points[i].x;
     let res = 1;
     for (let j = 0; j < points.length; j++)
-        if(j != i)
+        if (j != i)
             res *= (xi - points[j].x);
     //console.log(`div: ${res}`);
     return res;
@@ -79,6 +79,45 @@ export function getFBySplain(x: number, splain: Splain): number {
 }
 
 export function calcNewton(points: Point[]): string {
-    //TODO: write an algorithm
-    return "calcNewton";
+    let j = 0;
+    let i = points.length;
+    let res = new Clouse();
+    let deltas = getDividedDifferences(points.length, points);
+    do {
+        if (j === 0) {
+            res = res.add(new Letter(0, points[j].y)) as Clouse;
+        }
+        else {
+            let clouses = new Clouse();
+            for (let k = 0; k < j; k++) {
+                if (k === 0)
+                    clouses = clouses.add(new Letter(1, 1).add(new Letter(0, -points[k].x))) as Clouse;
+                else
+                    clouses = clouses.mul(new Letter(1, 1).add(new Letter(0, -points[k].x))) as Clouse;
+            }
+            clouses = clouses.mul(new Letter(0, deltas[0][j])) as Clouse;
+            res = res.add(clouses) as Clouse;
+        }
+        j++;
+    }
+    while (j < i)
+    return res.toString();
+}
+
+function getDividedDifferences(i: number, points: Point[]) {
+    let deltas: number[][] = new Array();
+    for (let l = 0; l < i; l++)
+        deltas.push(new Array(i));
+    for (let n = 0; n < i; n++) {
+        for (let m = 0; m < i; m++) {
+            if (n === 0) {
+                deltas[m][n] = points[m].y;
+            }
+            else {
+                if (m < points.length - n)
+                    deltas[m][n] = (deltas[m + 1][n - 1] - deltas[m][n - 1]) / (points[n + m].x - points[m].x)
+            }
+        }
+    }
+    return deltas;
 }
