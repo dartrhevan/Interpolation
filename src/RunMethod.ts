@@ -33,7 +33,3 @@ export default function runcalc(sys: number[][]) {
     }
     return runMethod(sys);
 }
-
-module.exports = {
-    runcalc
-};
