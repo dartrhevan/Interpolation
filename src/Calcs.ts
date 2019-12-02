@@ -42,93 +42,50 @@ function getRunCoeff(us: number[], vs: number[], points: Point[]) {
     }
 }
 function getA(i: number, cs: number[], points: Point[]): number {
-    if (i === 0)
+    /*if (i === 0)
         return points[0].y;
-    else {
-        return points[i - 1].y;
-    }
+    else {*/
+        return points[i].y;
+    //}
 
 }
-function getB(i: number, cs: number[], points: Point[]): number {
-    let h = getH(i, points);
-    if (i === points.length - 1) return (getL(i, points) - (2 * h * cs[i] / 3))
-    return (getL(i, points) - (h * (cs[i + 1] + 2 * cs[i])) / 3);
-
+function getB(i: number, c: number[], points: Point[]): number {
+    return l[i] + (2 * c[i] * h[i] + h[i] * c[i - 1]) / 3;
 }
+
+const h: number[] = [];
+const l: number[] = []
+
 function getCs(points: Point[]): number[] {
-    let cs: number[][] = [];
-    //for (let l = 0; l < points.length; l++)
-    /*for (let i = 1; i < points.length; i++) {
-        const row = new Array(points.length - 1);
-        if (i === 1) {
-            row[0] = getH(i, points);
-            row[1] = getH(i + 1, points);
-            row[row.length - 1] = 3 * (getL(i + 1, points) - getL(i, points));
-            continue;
-        }/*
-        else if (i === (points.length)) {
-            row[i - 2] = getH(i - 1, points);
-            row[i - 1] = 0;
-        }
-        else {
-            row[i - 2] = getH(i - 1, points);
-            row[i - 1] = 2 * (getH(i - 1, points) + getH(i, points));
-            row[i] = getH(i, points);
-        }*
-        else if (i === (points.length - 1)) {
-            row[i - 1] = getH(i, points);
-            row[i] = 2 * (getH(i, points) + getH(i + 1, points));
-        }
-        else {
-            row[i - 1] = getH(i, points);
-            row[i] = 2 * (getH(i, points) + getH(i + 1, points));
-            row[i + 1] = getH(i + 1, points);
-        }
-        row[row.length - 1] = 3 * (getL(i, points) - getL(i - 1, points))/*((points[i].y - points[i - 1].y) / getH(i, points) - (points[i - 1].y - points[i - 2].y) / getH(i - 1, points))*;
-        cs.push(row);
+    let delta: number[] = [];
+    let lambda: number[] = [];
+    let c: number[] = [];
+    let N = points.length - 1;
+    for (let k = 1; k <= N; k++) {
+        h[k] = points[k].x - points[k - 1].x;
+        //if (h[k] == 0) {
+        //    printf("\nError, x[%d]=x[%d]\n", k, k - 1);
+        //    return;
+        //}
+        l[k] = (points[k].y - points[k - 1].y) / h[k];
     }
-    const ans = runcalc(cs);*/
-    for (let i = 1; i < points.length - 1; i++) {
-        const row = new Array(points.length);
-        if (i === 1) {
-            row[0] = 2 * (getH(i + 1, points) + getH(i, points));
-            row[1] = getH(i + 1, points);
-            row[row.length - 1] = 3 * (getL(i + 1, points) - getL(i, points));
-            cs.push(row);
-            continue;
-        }
-        /*else if (i === (points.length)) {
-            row[i - 2] = getH(i - 1, points);
-            row[i - 1] = 0;
-        }
-        else {
-            row[i - 2] = getH(i - 1, points);
-            row[i - 1] = 2 * (getH(i - 1, points) + getH(i, points));
-            row[i] = getH(i, points);
-        }*/
-        /*else if (i === (points.length - 2)) {
-            row[i - 2] = getH(i, points);
-            row[i-1] = 2 * (getH(i, points) + getH(i + 1, points));
-        }*/
-        else {
-            row[i - 2] = getH(i, points);
-            row[i - 1] = 2 * (getH(i, points) + getH(i + 1, points));
-            row[i] = getH(i + 1, points);
-        }
-        row[row.length - 1] = 3 * (getL(i + 1, points) - getL(i, points));//((points[i].y - points[i - 1].y) / getH(i, points) - (points[i - 1].y - points[i - 2].y) / getH(i - 1, points))*;
-        cs.push(row);
+    delta[1] = - h[2] / (2 * (h[1] + h[2]));
+    lambda[1] = 1.5 * (l[2] - l[1]) / (h[1] + h[2]);
+    for (let k = 3; k <= N; k++) {
+        delta[k - 1] = - h[k] / (2 * h[k - 1] + 2 * h[k] + h[k - 1] * delta[k - 2]);
+        lambda[k - 1] = (3 * l[k] - 3 * l[k - 1] - h[k - 1] * lambda[k - 2]) /
+            (2 * h[k - 1] + 2 * h[k] + h[k - 1] * delta[k - 2]);
     }
-    const lastRow = new Array(points.length);
-    lastRow[lastRow.length - 2] = 1;
-    lastRow[lastRow.length - 1] = 0;
-    lastRow[lastRow.length - 3] = 0;
-    //cs.push(lastRow);
-    const ans = runcalc(cs);
-    return ans;
+    c[0] = 0;
+    c[N] = 0;
+    for (let k = N; k >= 2; k--) {
+        c[k - 1] = delta[k - 1] * c[k] + lambda[k - 1];
+    }
+    return c;
 }
-function getD(i: number, cs: number[], points: Point[]): number {
+function getD(k: number, c: number[], points: Point[]): number {
 
-    return (cs[i] - cs[i - 1]) / (3 * getH(i, points));
+    return (c[k] - c[k - 1]) / (3 * h[k]);
 }
 function getH(i: number, points: Point[]): number {//вспомогательая функция
     return points[i].x - points[i - 1].x;
