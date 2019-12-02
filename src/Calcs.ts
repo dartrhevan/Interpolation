@@ -2,7 +2,7 @@
 import Clouse from './Model/Clouse';
 import Letter from './Model/Letter';
 import Splain from './Model/Splain';
-//import runcalc from './RunMethod';
+import runcalc from './RunMethod';
 
 
 function getFundPolL(i: number, points: Point[]): Clouse {
@@ -45,7 +45,6 @@ function getA(i: number, cs: number[], points: Point[]): number {
     if (i === 0)
         return points[0].y;
     else {
-
         return points[i - 1].y;
     }
 
@@ -58,31 +57,78 @@ function getB(i: number, cs: number[], points: Point[]): number {
 }
 function getCs(points: Point[]): number[] {
     let cs: number[][] = [];
-    for (let l = 0; l < points.length; l++)
-        cs.push(new Array(points.length));
-    for (let n = 0; n < points.length; n++) {
-        if (n === 0) {
-            cs[n][0] = points[0].x;
-            cs[n][1] = getH(1, points);
-        }
-        else if (n === (points.length - 1)) {
-            cs[n][n - 1] = getH(n, points);
-            cs[n][n] = 0;
+    //for (let l = 0; l < points.length; l++)
+    /*for (let i = 1; i < points.length; i++) {
+        const row = new Array(points.length - 1);
+        if (i === 1) {
+            row[0] = getH(i, points);
+            row[1] = getH(i + 1, points);
+            row[row.length - 1] = 3 * (getL(i + 1, points) - getL(i, points));
+            continue;
+        }/*
+        else if (i === (points.length)) {
+            row[i - 2] = getH(i - 1, points);
+            row[i - 1] = 0;
         }
         else {
-            cs[n][n - 1] = getH(n, points);
-            cs[n][n] = 2 * (getH(n, points) + getH(n + 1, points));
-            cs[n][n + 1] = getH(n + 1, points);
+            row[i - 2] = getH(i - 1, points);
+            row[i - 1] = 2 * (getH(i - 1, points) + getH(i, points));
+            row[i] = getH(i, points);
+        }*
+        else if (i === (points.length - 1)) {
+            row[i - 1] = getH(i, points);
+            row[i] = 2 * (getH(i, points) + getH(i + 1, points));
         }
+        else {
+            row[i - 1] = getH(i, points);
+            row[i] = 2 * (getH(i, points) + getH(i + 1, points));
+            row[i + 1] = getH(i + 1, points);
+        }
+        row[row.length - 1] = 3 * (getL(i, points) - getL(i - 1, points))/*((points[i].y - points[i - 1].y) / getH(i, points) - (points[i - 1].y - points[i - 2].y) / getH(i - 1, points))*;
+        cs.push(row);
     }
-    return runcalc(cs);
-
-
-
+    const ans = runcalc(cs);*/
+    for (let i = 1; i < points.length - 1; i++) {
+        const row = new Array(points.length);
+        if (i === 1) {
+            row[0] = 2 * (getH(i + 1, points) + getH(i, points));
+            row[1] = getH(i + 1, points);
+            row[row.length - 1] = 3 * (getL(i + 1, points) - getL(i, points));
+            cs.push(row);
+            continue;
+        }
+        /*else if (i === (points.length)) {
+            row[i - 2] = getH(i - 1, points);
+            row[i - 1] = 0;
+        }
+        else {
+            row[i - 2] = getH(i - 1, points);
+            row[i - 1] = 2 * (getH(i - 1, points) + getH(i, points));
+            row[i] = getH(i, points);
+        }*/
+        /*else if (i === (points.length - 2)) {
+            row[i - 2] = getH(i, points);
+            row[i-1] = 2 * (getH(i, points) + getH(i + 1, points));
+        }*/
+        else {
+            row[i - 2] = getH(i, points);
+            row[i - 1] = 2 * (getH(i, points) + getH(i + 1, points));
+            row[i] = getH(i + 1, points);
+        }
+        row[row.length - 1] = 3 * (getL(i + 1, points) - getL(i, points));//((points[i].y - points[i - 1].y) / getH(i, points) - (points[i - 1].y - points[i - 2].y) / getH(i - 1, points))*;
+        cs.push(row);
+    }
+    const lastRow = new Array(points.length);
+    lastRow[lastRow.length - 2] = 1;
+    lastRow[lastRow.length - 1] = 0;
+    lastRow[lastRow.length - 3] = 0;
+    //cs.push(lastRow);
+    const ans = runcalc(cs);
+    return ans;
 }
 function getD(i: number, cs: number[], points: Point[]): number {
 
-    return (cs[i + 1] - cs[i]) / (3 * getH(i, points));;
+    return (cs[i] - cs[i - 1]) / (3 * getH(i, points));
 }
 function getH(i: number, points: Point[]): number {//вспомогательая функция
     return points[i].x - points[i - 1].x;
@@ -91,13 +137,6 @@ function getL(i: number, points: Point[]): number {
     return (points[i].y - points[i - 1].y) / getH(i, points);
 }
 export function calcSplains(points: Point[]): Splain[] {
-
-    // points = points.sort((a: Point, b: Point) => a.x - b.x)
-    //return [
-    //    new Splain(0, 1, 1, 2, 3, 4),
-    //    new Splain(1, 3, 5, 6, 1, 0),
-    //    new Splain(3, 3.2, 1, 0, 7, 4)
-    //];//stub
     const cs = getCs(points);
     let ans: Splain[] = [];
     for (let i = 1; i < points.length; i++) {
@@ -152,39 +191,4 @@ function getDividedDifferences(i: number, points: Point[]) {
         }
     }
     return deltas;
-}
-
-function runcalc(sys: number[][]) {
-    function runMethod(sys: number[][]) {
-        const us: number[] = [];
-        const vs: number[] = [];
-        const xs: number[] = [];
-        const getA = (i: number) => sys[i][i - 1]; //alfa
-        const getB = (i: number) => sys[i][i];     //beta
-        const getC = (i: number) => ((i === sys.length - 1) ? 0 : sys[i][i + 1]); //y
-        const getD = (i: number) => sys[i][sys[i].length - 1]; //delta
-        function calcCoefficients() {
-            us[0] = -getC(0) / getB(0);
-            vs[0] = getD(0) / getB(0);
-            for (let i = 1; i < sys.length; i++) {
-                us[i] = -getC(i) / (getA(i) * us[i - 1] + getB(i));
-                vs[i] = (getD(i) - getA(i) * vs[i - 1]) / (getA(i) * us[i - 1] + getB(i));
-            }
-        }
-        function calcAnswer(i: number) {
-            if (i === sys.length - 1)
-                xs[i] = vs[i];//(a*q-d)/(b - a*p);
-            else
-                xs[i] = us[i] * xs[i + 1] + vs[i];
-            if (i !== 0)
-                calcAnswer(i - 1)
-        }
-        calcCoefficients();
-        calcAnswer(sys.length - 1);
-        console.log("u:" + us);
-        console.log("v:" + vs);
-        //alert(runOutput(xs));
-        return xs;
-    }
-    return runMethod(sys);
 }

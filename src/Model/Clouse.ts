@@ -91,8 +91,10 @@ export default class Clouse implements IClouse {
 
     public toString() {
         let res = '';
+        const zero = new Letter(0, 0);
         for (let l of this._letters)
-            res += l[1].coef >= 0 ? '+' + l[1] : l[1];
+            if (l[1] !== zero)
+                res += l[1].coef >= 0 ? '+' + l[1] : l[1];
         return res;
     }
 }

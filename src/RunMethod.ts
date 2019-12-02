@@ -17,7 +17,7 @@ export default function runcalc(sys: number[][]) {
             }
         }
         function calcAnswer(i: number) {
-            if(i === sys.length - 1)
+            if (i === sys.length - 1)
                 xs[i] = vs[i];//(a*q-d)/(b - a*p);
             else
                 xs[i] = us[i]*xs[i+1] + vs[i];

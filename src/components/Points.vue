@@ -68,7 +68,9 @@
         }
         data() {
             return {
-                points: [new Point(0, 2), new Point(2, 0), new Point(3, 4)],
+                //points: [new Point(0, 2), new Point(2, 0), new Point(3, 4)],
+                points: [new Point(1, 0.8), new Point(1.2, 2.0), new Point(1.4, 2.8),
+                new Point(1.6, 4.0), new Point(1.8, 5.2), new Point(2.0, 6.0)],
                 splains: null
             }
         }
