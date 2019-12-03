@@ -33,6 +33,9 @@ export function calcLagrange(points: Point[]): string {
     }
     return res.toString();
 }
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------
+
 function getRunCoeff(us: number[], vs: number[], points: Point[]) {
     us[1] = -getH(2, points) / (2 * (getH(1, points) + getH(2, points)));
     vs[1] = 3 * (getL(2, points) - getL(1, points)) / (2 * (getH(1, points) + getH(2, points)));
@@ -45,7 +48,7 @@ function getA(i: number, cs: number[], points: Point[]): number {
     /*if (i === 0)
         return points[0].y;
     else {*/
-        return points[i].y;
+    return points[i].y;
     //}
 
 }
@@ -63,23 +66,20 @@ function getCs(points: Point[]): number[] {
     let N = points.length - 1;
     for (let k = 1; k <= N; k++) {
         h[k] = points[k].x - points[k - 1].x;
-        //if (h[k] == 0) {
-        //    printf("\nError, x[%d]=x[%d]\n", k, k - 1);
-        //    return;
-        //}
         l[k] = (points[k].y - points[k - 1].y) / h[k];
     }
     delta[1] = - h[2] / (2 * (h[1] + h[2]));
     lambda[1] = 1.5 * (l[2] - l[1]) / (h[1] + h[2]);
-    for (let k = 3; k <= N; k++) {
-        delta[k - 1] = - h[k] / (2 * h[k - 1] + 2 * h[k] + h[k - 1] * delta[k - 2]);
-        lambda[k - 1] = (3 * l[k] - 3 * l[k - 1] - h[k - 1] * lambda[k - 2]) /
-            (2 * h[k - 1] + 2 * h[k] + h[k - 1] * delta[k - 2]);
+    for (let k = 2; k < N; k++) {
+        delta[k] = - h[k + 1] / (h[k] * delta[k - 1] + 2 * (h[k] + h[k + 1]));
+        lambda[k] = ((3 * (l[k + 1] - l[k])) - (h[k] * lambda[k-1])) / ((h[k] * delta[k - 1]) + (2 * (h[k] + h[k + 1])));
     }
     c[0] = 0;
     c[N] = 0;
-    for (let k = N; k >= 2; k--) {
-        c[k - 1] = delta[k - 1] * c[k] + lambda[k - 1];
+    for (let k = N - 1; k >= 1; k--) {
+        if (k === N - 1)
+            c[k] = lambda[k];	
+        else c[k] = delta[k] * c[k + 1] + lambda[k];
     }
     return c;
 }
@@ -105,6 +105,8 @@ export function calcSplains(points: Point[]): Splain[] {
 export function getFBySplain(x: number, splain: Splain): number {
     return splain.a + splain.b * (x - splain.x1) + splain.c * (x - splain.x1) ** 2 + splain.d * (x - splain.x1) ** 3;
 }
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------
 
 export function calcNewton(points: Point[]): string {
     let j = 0;

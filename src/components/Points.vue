@@ -33,7 +33,7 @@
             Splains
             <br/>
             <div v-for="s in splains">
-                {{s.x1}} - {{s.x2}}: y = {{s.a}} + {{s.b}}(x - {{s.x1}}) + {{s.c}}(x - {{s.x1}})^2 + {{s.d}}(x - {{s.x1}})^3
+                {{s.x1}} - {{s.x2}}: y = {{s.a}} + {{s.b}}(x - {{s.x2}}) + {{s.c}}(x - {{s.x2}})^2 + {{s.d}}(x - {{s.x2}})^3
             </div>
             <input type="text" placeholder="x" value="0" id="x"/><button v-on:click="$refs.y.innerHTML=splainF()">Calc</button>f(x)=<label ref="y"></label>
         </details>
