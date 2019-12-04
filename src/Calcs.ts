@@ -103,7 +103,7 @@ export function calcSplains(points: Point[]): Splain[] {
 }
 
 export function getFBySplain(x: number, splain: Splain): number {
-    return splain.a + splain.b * (x - splain.x1) + splain.c * (x - splain.x1) ** 2 + splain.d * (x - splain.x1) ** 3;
+    return splain.a + splain.b * (x - splain.x2) + splain.c * (x - splain.x2) ** 2 + splain.d * (x - splain.x2) ** 3;
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------
