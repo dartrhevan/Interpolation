@@ -27,6 +27,7 @@
         <button v-on:click="calcLagrange()">CalcLagrange</button>
         <button v-on:click="calcNewton()">CalcNewton</button>
         <button v-on:click="calcSplains()">calcSplains</button>
+        <button v-on:click="calcMMS()">calcMMS</button>
         <br/>
         Result:<label id="res"></label>
         <details v-if="splains!=null">
@@ -44,25 +45,31 @@
  import { Component, Vue } from 'vue-property-decorator';
     import Point from '../Model/Point';
     import { calcLagrange, calcNewton, calcSplains, getFBySplain } from '../Calcs';
-    import runCalc from '../RunMethod';
+    //import runCalc from '../RunMethod';
     import Splain from '../Model/Splain';
+    import {linear, polinomial} from '../Aprox'
 
     @Component({
         components: {
         }
     })
     export default class Points extends Vue {
-        
+
         calcLagrange() {
             const res = document.getElementById('res') as HTMLElement;
             res.innerHTML = calcLagrange(this.getPoints());
         }
 
+        calcMMS() {
+            const res = document.getElementById('res') as HTMLElement;
+            res.innerHTML = `<br/> Linear: ${linear(this.getPoints())} <br/> Polinomial: ${polinomial(this.getPoints())}`
+        }
+
         calcNewton() {
             const res = document.getElementById('res') as HTMLElement;
-            res.innerHTML =calcNewton(this.getPoints());
+            res.innerHTML = calcNewton(this.getPoints());
         }
-        calcSplains() {            
+        calcSplains() {
             //alert("Splains");
             this.$data.splains = calcSplains(this.getPoints())
         }
@@ -82,7 +89,7 @@
                 return null;
             }*/
             console.log(x);
-            
+
             console.log(this.$data.splains);
             const curSplain = (this.$data.splains as Splain[]).find(s => s.x2 >= x && s.x1 <= x);
             if (curSplain === null || curSplain === undefined) {

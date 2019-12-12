@@ -2,7 +2,7 @@
 import gausMethod from "./GausMethod"
 
 
-function linear(points: Point[]) {
+export function linear(points: Point[]) {
     const x = getXSum(points);
     const y = getYSum(points);
     const xsq = getXSqSum(points);
@@ -11,7 +11,7 @@ function linear(points: Point[]) {
     return `y = ${a}x + ${b}`;
 }
 
-function polinomial(points: Point[]) {
+export function polinomial(points: Point[]) {
     return '';
 }
 
@@ -34,3 +34,5 @@ function getYSum(points: Point[]): number {
 function getXYSum(points: Point[]): number {
     return points.map(p => p.y * p.x).reduce((t, c) => t += c);
 }
+
+//module.exports = { linear, polinomial}

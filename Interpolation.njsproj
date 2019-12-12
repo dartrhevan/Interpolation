@@ -38,7 +38,6 @@
     <Content Include="src\components\Points.vue">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="src\RunMethod.ts" />
     <Content Include="tsconfig.json" />
     <Content Include="package.json" />
     <Content Include="README.md" />
@@ -60,6 +59,8 @@
     <Content Include="babel.config.js" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="src\Aprox.ts" />
+    <TypeScriptCompile Include="src\GausMethod.ts" />
     <TypeScriptCompile Include="src\Calcs.ts" />
     <TypeScriptCompile Include="src\Model\Clouse.ts">
       <SubType>Code</SubType>

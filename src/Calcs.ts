@@ -2,7 +2,6 @@
 import Clouse from './Model/Clouse';
 import Letter from './Model/Letter';
 import Splain from './Model/Splain';
-import runcalc from './RunMethod';
 
 
 function getFundPolL(i: number, points: Point[]): Clouse {
@@ -78,7 +77,7 @@ function getCs(points: Point[]): number[] {
     c[N] = 0;
     for (let k = N - 1; k >= 1; k--) {
         if (k === N - 1)
-            c[k] = lambda[k];	
+            c[k] = lambda[k];
         else c[k] = delta[k] * c[k + 1] + lambda[k];
     }
     return c;
