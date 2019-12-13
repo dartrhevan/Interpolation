@@ -28,15 +28,19 @@
         <button v-on:click="calcNewton()">CalcNewton</button>
         <button v-on:click="calcSplains()">calcSplains</button>
         <button v-on:click="calcMMS()">calcMMS</button>
-        <br/>
+        <br />
+        <button v-on:click="fillMMS()">FillMMS</button>
+        <button v-on:click="fillSplains()">FillSplains</button>
+        <button v-on:click="fillNL()">FillNL</button>
+        <br />
         Result:<label id="res"></label>
         <details v-if="splains!=null">
             Splains
-            <br/>
+            <br />
             <div v-for="s in splains">
                 {{s.x1}} - {{s.x2}}: y = {{s.a}} + {{s.b}}(x - {{s.x2}}) + {{s.c}}(x - {{s.x2}})^2 + {{s.d}}(x - {{s.x2}})^3
             </div>
-            <input type="text" placeholder="x" value="0" id="x"/><button v-on:click="$refs.y.innerHTML=splainF()">Calc</button>f(x)=<label ref="y"></label>
+            <input type="text" placeholder="x" value="0" id="x" /><button v-on:click="$refs.y.innerHTML=splainF()">Calc</button>f(x)=<label ref="y"></label>
         </details>
     </div>
 </template>
@@ -54,6 +58,19 @@
         }
     })
     export default class Points extends Vue {
+
+        fillMMS() {
+            this.$data.points = [new Point(-1, 1), new Point(0, 3), new Point(1, 5), new Point(3, 9), new Point(4, 11)];
+        }
+
+        fillSplains() {            
+            this.$data.points = [new Point(1, 0.8), new Point(1.2, 2.0), new Point(1.4, 2.8),
+                new Point(1.6, 4.0), new Point(1.8, 5.2), new Point(2.0, 6.0)];
+        }
+
+        fillNL() {            
+            this.$data.points = [new Point(0, 2), new Point(2, 0), new Point(3, 4)];
+        }
 
         calcLagrange() {
             const res = document.getElementById('res') as HTMLElement;
@@ -75,9 +92,9 @@
         }
         data() {
             return {
-                //points: [new Point(0, 2), new Point(2, 0), new Point(3, 4)],
-                points: [new Point(1, 0.8), new Point(1.2, 2.0), new Point(1.4, 2.8),
-                new Point(1.6, 4.0), new Point(1.8, 5.2), new Point(2.0, 6.0)],
+                points: [new Point(0, 2), new Point(2, 0), new Point(3, 4)],
+                /*points: [new Point(1, 0.8), new Point(1.2, 2.0), new Point(1.4, 2.8),
+                new Point(1.6, 4.0), new Point(1.8, 5.2), new Point(2.0, 6.0)]*/
                 splains: null
             }
         }

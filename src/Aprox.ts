@@ -6,9 +6,12 @@ export function linear(points: Point[]) {
     const x = getXSum(points);
     const y = getYSum(points);
     const xsq = getXSqSum(points);
-    const b = (x * y - y * xsq) / (x - xsq * points.length);
-    const a = (x * y - b * x) / xsq;
-    return `y = ${a}x + ${b}`;
+    const xy = getXYSum(points);
+    console.log(`x: ${x} y: ${y} x^2: ${xsq} xy: ${xy}`);/*
+    const b = (xy - y * xsq) / (x - xsq * points.length);
+    const a = (xy - b * x) / xsq;*/
+    const coef = gausMethod([[xsq, x, xy],[x, points.length, y]]);
+    return `y = ${coef[0]}x + ${coef[1]}`;
 }
 
 export function polinomial(points: Point[]) {

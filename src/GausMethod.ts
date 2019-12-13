@@ -53,4 +53,5 @@ function reverseMove(sys: number[][]) {//обратный проход
 export default function gausMethod(sys: number[][]) {
     directMove(sys);
     reverseMove(sys);
+    return sys.map(r => r[r.length - 1]);
 }
