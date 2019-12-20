@@ -1,6 +1,6 @@
 <template>
-    <div id="points">
-
+    <div id="points" align="center">
+        <h1>{{handler}}</h1>
         <table border="1">
             <thead>
                 <tr>
@@ -24,14 +24,14 @@
                 </tr>
             </tbody>
         </table>
-        <button v-on:click="calcLagrange()">CalcLagrange</button>
+        <button v-on:click="calculate()" id="calc">Calculate</button><!--
         <button v-on:click="calcNewton()">CalcNewton</button>
         <button v-on:click="calcSplains()">calcSplains</button>
         <button v-on:click="calcMMS()">calcMMS</button>
         <br />
         <button v-on:click="fillMMS()">FillMMS</button>
         <button v-on:click="fillSplains()">FillSplains</button>
-        <button v-on:click="fillNL()">FillNL</button>
+        <button v-on:click="fillNL()">FillNL</button>-->
         <br />
         Result:<label id="res"></label>
         <details v-if="splains!=null">
@@ -57,21 +57,40 @@
         components: {
         }
     })
-    export default class Points extends Vue {
 
+    export default class Points extends Vue {
+/*
         fillMMS() {
             this.$data.points = [new Point(-1, 1), new Point(0, 3), new Point(1, 5), new Point(3, 9), new Point(4, 11)];
         }
 
-        fillSplains() {            
+        fillSplains() {
             this.$data.points = [new Point(1, 0.8), new Point(1.2, 2.0), new Point(1.4, 2.8),
                 new Point(1.6, 4.0), new Point(1.8, 5.2), new Point(2.0, 6.0)];
         }
 
-        fillNL() {            
+        fillNL() {
             this.$data.points = [new Point(0, 2), new Point(2, 0), new Point(3, 4)];
-        }
+        }*/
 
+        calculate() {
+            const res = document.getElementById('res') as HTMLElement;
+            switch (this.$data.handler) {
+                case 'Lagrange':
+                    res.innerHTML = calcLagrange(this.getPoints());
+                    break;
+                case 'Newton':
+                    res.innerHTML = calcNewton(this.getPoints());
+                    break;
+                case 'MMS':
+                    res.innerHTML = `<br/> Linear: ${linear(this.getPoints())} <br/>`;
+                    break;
+                case 'Splains':
+                    this.$data.splains = calcSplains(this.getPoints());
+                    break;
+            }
+        }
+/*
         calcLagrange() {
             const res = document.getElementById('res') as HTMLElement;
             res.innerHTML = calcLagrange(this.getPoints());
@@ -79,7 +98,7 @@
 
         calcMMS() {
             const res = document.getElementById('res') as HTMLElement;
-            res.innerHTML = `<br/> Linear: ${linear(this.getPoints())} <br/> Polinomial: ${polinomial(this.getPoints())}`
+            res.innerHTML = `<br/> Linear: ${linear(this.getPoints())} <br/>`;
         }
 
         calcNewton() {
@@ -89,15 +108,30 @@
         calcSplains() {
             //alert("Splains");
             this.$data.splains = calcSplains(this.getPoints())
-        }
+        }*/
         data() {
             return {
                 points: [new Point(0, 2), new Point(2, 0), new Point(3, 4)],
                 /*points: [new Point(1, 0.8), new Point(1.2, 2.0), new Point(1.4, 2.8),
                 new Point(1.6, 4.0), new Point(1.8, 5.2), new Point(2.0, 6.0)]*/
-                splains: null
+                splains: null,
+                handler: this.parseQueryString().get('handler')
             }
         }
+
+
+        private parseQueryString(strQuery = window.location.search) : Map<string, string> {
+            let strSearch   = strQuery.substr(1),
+                strPattern  = /([^=]+)=([^&]+)&?/ig,
+                arrMatch    = strPattern.exec(strSearch),
+                objRes      = new Map<string, string>();
+            while (arrMatch != null) {
+                objRes.set(arrMatch[1], arrMatch[2]);
+                arrMatch = strPattern.exec(strSearch);
+            }
+            return objRes;
+        }
+
         splainF() {
             const x = Number.parseFloat((document.getElementById('x') as HTMLInputElement).value);
             /*const points = this.getPoints();.sort();
@@ -130,4 +164,7 @@
 </script>
 
 <style scoped>
+    #calc {
+        font-size: inherit;
+    }
 </style>

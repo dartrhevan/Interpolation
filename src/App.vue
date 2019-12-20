@@ -23,7 +23,7 @@
             alert(calcLagrange(this.getPoints()));
         }
 
-        calcNewton() {            
+        calcNewton() {
             alert(calcNewton(this.getPoints()));
         }/*
         calcf() {
@@ -50,10 +50,53 @@
 
 <style>
     #app {
-        display: flex;
         width: 100%;
+        font-size: 20px;
+        /*
+        display: flex;
         height: 90vh;
         align-items: center;
-        justify-content: center;
+        justify-content: center;*/
+    }
+
+    button {
+        box-shadow: lightgray 1px 1px 1px 1px, lightgray -1px -1px 1px 1px;
+        background: #09d3cf;
+        color: lightgray;
+        border-radius: 17px;
+        border: none;
+        transition: background-color 0.4s;
+    }
+
+    table button, table input {
+        border-radius: 0;
+        margin: 4px;
+    }
+
+    table button {
+        width: calc(100% - 8px);
+        height: inherit;
+    }
+
+    button:hover {
+        cursor: pointer;
+        background-color: #03a2a0;
+        color: darkgray;
+    }
+
+    button, input {
+        margin: 10px;
+        font-size: inherit;
+        color: black;
+    }
+
+    table {
+        background: black;
+    }
+
+    table tr td {
+        padding: 0;
+        border: none;
+        background: white;
     }
 </style>
