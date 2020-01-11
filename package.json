@@ -10,6 +10,7 @@
   "author": {
     "name": ""
   },
+  "homepage": ".",
   "dependencies": {
     "vue": "^2.6.10",
     "vue-class-component": "^6.3.2",

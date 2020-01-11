@@ -24,17 +24,10 @@
                 </tr>
             </tbody>
         </table>
-        <button v-on:click="calculate()" id="calc">Calculate</button><!--
-        <button v-on:click="calcNewton()">CalcNewton</button>
-        <button v-on:click="calcSplains()">calcSplains</button>
-        <button v-on:click="calcMMS()">calcMMS</button>
-        <br />
-        <button v-on:click="fillMMS()">FillMMS</button>
-        <button v-on:click="fillSplains()">FillSplains</button>
-        <button v-on:click="fillNL()">FillNL</button>-->
+        <button v-on:click="calculate()" id="calc">Calculate</button>
         <br />
         <h3 align="center">Solution</h3>
-        <div >
+        <div>
             <h4>{{solution.coefDescription}}</h4>
             <table border="1">
                 <thead>

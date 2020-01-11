@@ -50,7 +50,7 @@
 
 <style>
     #app {
-        width: 100%;
+        width: fit-content;
         font-size: 20px;
         /*
         display: flex;
@@ -58,7 +58,12 @@
         align-items: center;
         justify-content: center;*/
     }
-
+    #points {
+        width: fit-content;
+    }
+    body {
+        width: fit-content;
+    }
     button {
         box-shadow: lightgray 1px 1px 1px 1px, lightgray -1px -1px 1px 1px;
         background: #09d3cf;
@@ -66,6 +71,10 @@
         border-radius: 17px;
         border: none;
         transition: background-color 0.4s;
+    }
+
+    input {
+        width: 80px;
     }
 
     table button, table input {
