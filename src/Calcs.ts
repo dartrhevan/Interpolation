@@ -2,6 +2,7 @@
 import Clouse from './Model/Clouse';
 import Letter from './Model/Letter';
 import Splain from './Model/Splain';
+import Solution from "@/Model/Solution";
 
 
 function getFundPolL(i: number, points: Point[]): Clouse {
@@ -23,14 +24,17 @@ function getDivider(i: number, points: Point[]): number {
     return res;
 }
 
-export function calcLagrange(points: Point[]): string {
-    let res = new Clouse();
+export function calcLagrange(points: Point[]): Solution {
+    let res = new Clouse(), solution = new Solution();
+    solution.coefDescription = 'Fundamental polynomials of Lagrange';
     for (let i = 0; i < points.length; i++) {
         let a = getFundPolL(i, points);
-        console.log(a.toString());
+        solution.addCoef(i, a);
+        //console.log(a.toString());
         res = res.add(a.mul(new Letter(0, points[i].y))) as Clouse;
     }
-    return res.toString();
+    solution.result = res.toString();
+    return solution;
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------
@@ -56,7 +60,7 @@ function getB(i: number, c: number[], points: Point[]): number {
 }
 
 const h: number[] = [];
-const l: number[] = []
+const l: number[] = [];
 
 function getCs(points: Point[]): number[] {
     let delta: number[] = [];
@@ -107,11 +111,14 @@ export function getFBySplain(x: number, splain: Splain): number {
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------
 
-export function calcNewton(points: Point[]): string {
+export function calcNewton(points: Point[]): Solution {
+    const solution = new Solution();
     let j = 0;
     let i = points.length;
     let res = new Clouse();
-    let deltas = getDividedDifferences(points.length, points);
+    const deltas = getDividedDifferences(points.length, points);
+    solution.addCoefs(deltas[0]);
+    solution.coefDescription = 'Divided differences';
     do {
         if (j === 0) {
             res = res.add(new Letter(0, points[j].y)) as Clouse;
@@ -129,12 +136,13 @@ export function calcNewton(points: Point[]): string {
         }
         j++;
     }
-    while (j < i)
-    return res.toString();
+    while (j < i);
+    solution.result = res.toString();
+    return solution;
 }
 
 function getDividedDifferences(i: number, points: Point[]) {
-    let deltas: number[][] = new Array();
+    let deltas: number[][] = [];
     for (let l = 0; l < i; l++)
         deltas.push(new Array(i));
     for (let n = 0; n < i; n++) {

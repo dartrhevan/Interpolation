@@ -1,6 +1,6 @@
 <template>
     <div id="points" align="center">
-        <h1>{{handler}}</h1>
+        <!--<h1>{{handler}}</h1>-->
         <table border="1">
             <thead>
                 <tr>
@@ -33,7 +33,27 @@
         <button v-on:click="fillSplains()">FillSplains</button>
         <button v-on:click="fillNL()">FillNL</button>-->
         <br />
-        Result:<label id="res"></label>
+        <h3 align="center">Solution</h3>
+        <div >
+            <h4>{{solution.coefDescription}}</h4>
+            <table border="1">
+                <thead>
+                <tr>
+                    <td>Description</td>
+                    <td>Value</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="ind in solution.coefs">
+                    <td>{{ind.description}}</td>
+                    <td>{{ind.value}}</td>
+                </tr>
+                </tbody>
+            </table>
+            <br/>
+            <div>Result: {{solution.result}}</div>
+        </div>
+        <!--<label id="res"></label>-->
         <details v-if="splains!=null">
             Splains
             <br />
@@ -52,6 +72,7 @@
     //import runCalc from '../RunMethod';
     import Splain from '../Model/Splain';
     import {linear, polinomial} from '../Aprox'
+ import Solution from "@/Model/Solution";
 
     @Component({
         components: {
@@ -77,13 +98,16 @@
             const res = document.getElementById('res') as HTMLElement;
             switch (this.$data.handler) {
                 case 'Lagrange':
-                    res.innerHTML = calcLagrange(this.getPoints());
+                    this.$data.solution = calcLagrange(this.getPoints());
+                    //res.innerHTML = calcLagrange(this.getPoints());
                     break;
                 case 'Newton':
-                    res.innerHTML = calcNewton(this.getPoints());
+                    this.$data.solution = calcNewton(this.getPoints());
+                    //res.innerHTML = calcNewton(this.getPoints());
                     break;
                 case 'MMS':
-                    res.innerHTML = `<br/> Linear: ${linear(this.getPoints())} <br/>`;
+                    this.$data.solution = linear(this.getPoints());
+                    //res.innerHTML = `<br/> Linear: ${linear(this.getPoints())} <br/>`;
                     break;
                 case 'Splains':
                     this.$data.splains = calcSplains(this.getPoints());
@@ -115,6 +139,7 @@
                 /*points: [new Point(1, 0.8), new Point(1.2, 2.0), new Point(1.4, 2.8),
                 new Point(1.6, 4.0), new Point(1.8, 5.2), new Point(2.0, 6.0)]*/
                 splains: null,
+                solution: new Solution(),
                 handler: this.parseQueryString().get('handler')
             }
         }
